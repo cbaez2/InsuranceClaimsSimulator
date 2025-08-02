@@ -35,7 +35,7 @@ It calculates both the total actual insurance payment and the total expected cla
 
 You can run this simulator **without installing Python**.
 
-> 🎯 [**Download InsuranceClaimsSimulator (.zip)**](https://github.com/yourusername/yourrepo/releases/download/v1.0/InsuranceClaimsSimulator.zip)
+> [**Download Insurance Claim Simulator (.zip)**](https://github.com/cbaez2/InsuranceClaimsSimulator/releases/download/v1.0/InsuranceClaimsSimulator.zip)
 
 - Just unzip and run `InsuranceClaimsSimulator.exe`.
 - Works on any Windows machine.
