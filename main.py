@@ -29,7 +29,8 @@ def main():
     # Step 4: Simulate and summarize
     losses, payments = simulate_losses(info, dist_name, dist_params)
     summarize_results(losses, payments, info, dist_name, dist_params)
-
+    input("\nSimulation complete. Press Enter to exit.")
+    
 if __name__ == "__main__":
     main()
 
