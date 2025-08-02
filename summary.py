@@ -153,8 +153,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print("  • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
         print("  • The expected value shown may be inaccurate.")
         print("  • Large margin of error: the numerical integral failed to meet the required tolerance.")
-        print(
-            "\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
+        print("\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
 
 
 
