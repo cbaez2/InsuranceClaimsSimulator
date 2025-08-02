@@ -3,6 +3,8 @@ from scipy.integrate import quad
 from payment import payment
 from scipy.stats import uniform, expon, gamma, norm, lognorm, beta
 import numpy as np
+import warnings
+from scipy.integrate import IntegrationWarning
 
 def get_pdf_and_bounds(dist_name, dist_params):
     if dist_name == 'uniform':
@@ -31,9 +33,21 @@ def get_pdf_and_bounds(dist_name, dist_params):
         return lambda x: beta.pdf(x, a=α, b=β_, loc=a, scale=b - a), a, b
 
 def expected_payment(info, dist_name, dist_params):
-        f_X, lower, upper = get_pdf_and_bounds(dist_name, dist_params)
-        integrand = lambda x: payment(x, info) * f_X(x) #defining a mathematical function of a single variable x
+    f_X, lower, upper = get_pdf_and_bounds(dist_name, dist_params)
+    integrand = lambda x: payment(x, info) * f_X(x)
+    warning_occurred = False
+
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("ignore", IntegrationWarning)  # suppress display
+        warnings.simplefilter("always", IntegrationWarning)  # capture silently
+
         result, error = quad(integrand, lower, upper, limit=1000)
-        return result, error
+
+        for warn in w:
+            if issubclass(warn.category, IntegrationWarning):
+                warning_occurred = True
+                break
+
+    return result, error, warning_occurred
 
 
