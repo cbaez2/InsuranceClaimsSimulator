@@ -28,6 +28,18 @@ It calculates both the total actual insurance payment and the total expected cla
   - Difference between both
   - Percent error 
   - Margin of error on total expected payout
+  
+ ---
+
+  ## 💻 Download Executable 
+
+You can run this simulator **without installing Python**.
+
+> 🎯 [**Download ClaimSimulator.exe**](https://YOUR-LINK-HERE)
+
+- Just download and double-click.
+- No setup, no install — runs on any Windows machine.
+- Follow the prompts to simulate claims under your selected policy.
 
 ---
 
