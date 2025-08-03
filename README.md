@@ -37,6 +37,7 @@ You can run this simulator **without installing Python**.
 
 > [**Download Insurance Claim Simulator (.zip)**](https://github.com/cbaez2/InsuranceClaimsSimulator/releases/download/v1.0/InsuranceClaimsSimulator.zip)
 
+
 - Unzip and run InsuranceClaimsSimulator.exe (may take a few seconds to start).
 - If Windows shows a warning, click “More info” → “Run anyway.”
 - This executable was built locally by the project author and contains no installers, ads, or trackers.
