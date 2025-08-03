@@ -12,7 +12,7 @@ def get_uniform_bounds():
             b= float(input("Enter the upper bound 'b' for the Uniform distribution: "))
             if b>a:
                 break
-            print("The upper bound 'b' must be greater than the lower bound 'a'.")
+            print(f"The upper bound 'b' must be greater than the lower bound {a:,}.")
         except ValueError:
             print("Please enter a numeric value for upper bound 'b'.")
     return a,b
@@ -26,21 +26,21 @@ def get_uniform_parameters(info): #getting adjusted bounds (that happen to be th
         if d>0 and u < float('inf'):   #both policy limit and deductible given
             if a<=d < u<=b:
                 break
-            print(f"\nBoth the deductible and limit must satisfy this inequality: a ≤ deductible < limit ≤ b → [{a} ≤ {d} < {u} ≤ {b}]")
+            print(f"\nBoth the deductible and limit must satisfy this inequality: a ≤ deductible < limit ≤ b → [{a:,} ≤ {d:,} < {u:,} ≤ {b:,}]")
 
         elif d>0 and u == float('inf'): #only deductible is given
             if a<=d<b:
                 break
-            print(f"\nThe deductible must satisfy this inequality: a ≤ deductible < b → [{a} ≤ {d} < {b}]")
+            print(f"\nThe deductible must satisfy this inequality: a ≤ deductible < b → [{a:,} ≤ {d:,} < {b:,}]")
 
         elif u < float('inf') and d == 0: #only policy limit is given
             if a<u<=b:
                 break
-            print(f"\nThe policy limit must satisfy this inequality: a < policy limit ≤ b → [{a} < {u} ≤ {b}]")
+            print(f"\nThe policy limit must satisfy this inequality: a < policy limit ≤ b → [{a:,} < {u:,} ≤ {b:,}]")
         else:
             break #no deductible nor policy limit
     if d == a:
-        print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than {a}, the insurer will pay for all losses except when the loss is exactly {a}.")
+        print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
 
     if u == b:
         print("\n⚠️ Warning: The policy limit equals the maximum possible loss so it will not cap any losses.")
@@ -140,7 +140,7 @@ def get_beta_bounds(info):
             b = float(input("Enter the maximum loss amount: "))
             if b>a:
                 break
-            print("The maximum loss amount must be greater than the minimum loss amount.")
+            print(f"The maximum loss amount must be greater than the minimum loss amount of ${a:,}.")
         except ValueError:
             print("Please enter a numeric value for the maximum loss amount.")
     return a,b
@@ -173,24 +173,24 @@ def beta_adjusted_bounds(info):
             a, b = get_beta_bounds(info) #ASK for bounds
             if d>0 and u < float('inf'):   #both deductible and policy limit are given
                 if a<= d < u <=b:
-                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a}, {b}].")
+                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a:,}, {b:,}].")
                     break
-                print(f"\nBoth the deductible and limit must satisfy this inequality: min ≤ deductible < limit ≤ max → [{a} ≤ {d} < {u} ≤ {b}]")
+                print(f"\nBoth the deductible and limit must satisfy this inequality: min ≤ deductible < limit ≤ max → [{a:,} ≤ {d:,} < {u:,} ≤ {b:,}]")
 
             elif d>0 and u == float('inf'): #only deductible is given
                 if a<=d<b:
-                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a}, {b}].")
+                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a:,}, {b:,}].")
                     break
-                print(f"\nThe deductible must satisfy this inequality: min ≤ deductible < max → [{a} ≤ {d} < {b}]")
+                print(f"\nThe deductible must satisfy this inequality: min ≤ deductible < max → [{a:,} ≤ {d:,} < {b:,}]")
 
             elif u < float('inf') and d == 0: #only policy limit is given
                 if a<u<=b:
-                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a}, {b}].")
+                    print(f"\nThe Beta distribution has been successfully rescaled to the interval [{a:,}, {b:,}].")
                     break
-                print(f"\nThe policy limit must satisfy this inequality: min < policy limit ≤ max → [{a} < {u} ≤ {b}]")
+                print(f"\nThe policy limit must satisfy this inequality: min < policy limit ≤ max → [{a:,} < {u:,} ≤ {b:,}]")
 
         if d == a:
-            print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than {a}, the insurer will pay for all losses except when the loss is exactly {a}.")
+            print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
 
         if u == b:
             print("\n⚠️ Warning: The policy limit equals the maximum possible loss so it will not cap any losses.")
