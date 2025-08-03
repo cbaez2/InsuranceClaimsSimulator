@@ -40,7 +40,7 @@ def get_user_inputs(n_claims):
             try:
                 deductible = float(input("Enter a deductible amount: "))
                 if deductible > MAX_DEDUCTIBLE:
-                    print(f"Please enter a deductible amount less than or equal to {MAX_DEDUCTIBLE:,}.")
+                    print(f"Please enter a deductible amount less than or equal to ${MAX_DEDUCTIBLE:,}.")
                 elif deductible > 0:
                     break
                 elif deductible == 0:
@@ -57,9 +57,9 @@ def get_user_inputs(n_claims):
             try:
                 policy_limit = float(input("Enter a policy limit: "))
                 if policy_limit <= deductible:
-                    print("Please enter a policy limit greater than the deductible.")
+                    print(f"Please enter a policy limit greater than the deductible amount of ${deductible:,}.")
                 elif policy_limit > MAX_POLICY_LIMIT:
-                    print(f"Please enter a policy limit less than or equal to {MAX_POLICY_LIMIT:,}.")
+                    print(f"Please enter a policy limit less than or equal to ${MAX_POLICY_LIMIT:,}.")
                 else:
                     break
             except ValueError:
@@ -94,6 +94,7 @@ def get_user_inputs(n_claims):
         'coinsurance_rate': coinsurance_rate,
         'n_claims': n_claims
     }
+
 
 
 
