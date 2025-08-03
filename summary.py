@@ -65,7 +65,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
             f"{claim_intro} a Beta distribution with parameters α = {dist_params['α']:,} and β = {dist_params['β']:,}.")
     elif dist_name == 'beta':
         print(
-            f"{claim_intro} a Beta distribution rescaled to [{dist_params['a']:,}, {dist_params['b']:,}], with parameters α = {dist_params['α']:,} and β = {dist_params['β']:,}.")
+            f"{claim_intro} a Beta distribution rescaled to the interval [{dist_params['a']:,}, {dist_params['b']:,}], with parameters α = {dist_params['α']:,} and β = {dist_params['β']:,}.")
 
     all_below_deductible = all(x <= info['deductible'] for x in losses)
     coinsurance_is_zero = info['coinsurance_rate'] == 0
@@ -150,10 +150,10 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     if integration_warning:
         print("\n⚠️  Warning: The calculation of the expected payment encountered convergence issues.")
-        print("  • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
+        print( "  • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
         print("  • The expected value shown may be inaccurate.")
         print("  • Large margin of error: the numerical integral failed to meet the required tolerance.")
-        print("\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
+        print( "\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
 
 
 
