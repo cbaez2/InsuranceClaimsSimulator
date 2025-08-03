@@ -44,7 +44,7 @@ def get_user_inputs(n_claims):
                 elif deductible > 0:
                     break
                 elif deductible == 0:
-                    print("⚠️ Warning: A deductible of 0 means the deductible has no effect.")
+                    print("⚠️ Warning: A deductible of $0.0 means the deductible has no effect.")
                     break
                 else:
                     print("Please enter a positive deductible amount.")
