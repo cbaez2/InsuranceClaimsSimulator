@@ -71,6 +71,8 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
     coinsurance_is_zero = info['coinsurance_rate'] == 0
     expected_close_to_zero = expected_total < 0.01
     total_payment_close_to_zero = total_payment < 0.01
+    a_e_ratio = total_payment/expected_total
+
     if expected_total == 0:
         percent_error = float('nan')  # or set to 0.0 or display a message
     else:
@@ -83,7 +85,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
     # Case 1: All claims below deductible
     if all_below_deductible:
         print(f"\nAll simulated claims were below the deductible.")
-        print(f"Total claim payment: $0.00")
+        print(f"Total actual claim payment: $0.00")
         print(f"Expected claim payment: less than $0.01")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
@@ -100,7 +102,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     # Case 2: Both expected and actual payments near zero
     elif expected_close_to_zero and total_payment_close_to_zero:
-        print(f"\nBoth the total claim payment and expected claim payment are less than $0.01.")
+        print(f"\nBoth the total actual claim payment and expected claim payment are less than $0.01.")
 
         print("\nThis usually occurs when:\n")
         print("  • The deductible is near the tail of the distribution, and/or")
@@ -109,7 +111,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
     # Case 3: Expected payment near zero, but actual payment not
     elif expected_close_to_zero and not total_payment_close_to_zero:
         print(f"\nExpected claim payment: less than $0.01.")
-        print(f"Total claim payment: ${total_payment:,.2f}")
+        print(f"Total actual claim payment: ${total_payment:,.2f}")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
             print("Percent error: undefined (expected payment is $0.00)")
@@ -120,7 +122,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     # Case 4: Actual payment near zero, but expected payment not
     elif not expected_close_to_zero and total_payment_close_to_zero:
-        print(f"\nTotal claim payment: less than $0.01")
+        print(f"\nTotal actual claim payment: less than $0.01")
         print(f"Total expected claim payment: ${expected_total:,.2f}")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
@@ -131,22 +133,30 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     # Case 5: Coinsurance is zero
     elif coinsurance_is_zero:
-        print(f"\nBoth the total claim payment and expected claim payment are $0.00.")
+        print(f"\nBoth the total actual claim payment and expected claim payment are $0.00.")
 
         print("\nReason:\n")
-        print("  • The coinsurance rate is 0, so the insurer pays nothing.")
+        print("  • The coinsurance rate is 0%, so the insurer pays nothing.")
 
     # PAYMENT SUMMARY (default case)
     else:
 
-        print(f"\nTotal claim payment: ${total_payment:,.2f}")
+        print(f"\nTotal actual claim payment: ${total_payment:,.2f}")
         print(f"Total expected claim payment: ${expected_total:,.2f}")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
+
         if np.isnan(percent_error):
             print("Percent error: undefined (expected payment is $0.00)")
         else:
             print(f"Percent error: {percent_error:,.2f}%")
+
+        if a_e_ratio > 1:
+            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual results are higher than expected.")
+        else:
+            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning actual results are lower than expected.")
+
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
+
 
     if integration_warning:
         print("\n⚠️  Warning: The calculation of the expected payment encountered convergence issues.")
@@ -154,7 +164,6 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print("  • The expected value shown may be inaccurate.")
         print("  • Large margin of error: the numerical integral failed to meet the required tolerance.")
         print( "\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
-
 
 
 
