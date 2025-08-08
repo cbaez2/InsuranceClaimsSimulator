@@ -34,7 +34,7 @@ def get_user_inputs(n_claims):
     else:
         print(f"\nHow do you want to set up the insurance policy for these {n_claims:,} claims?")
 
-    deductible = 0  # Deductible
+    deductible = 0  # Deductible is 0 by dafault
     if get_yes_no("Do you want a deductible? (y/n) ") == "y":
         while True:
             try:
@@ -44,9 +44,8 @@ def get_user_inputs(n_claims):
                 elif deductible > 0:
                     break
                 elif deductible == 0:
-                    print("⚠️ Warning: A deductible of $0.0 means the deductible has no effect.")
-                    break
-                else:
+                    print("Please enter a positive deductible amount.")
+                else: #dedcutible < 0
                     print("Please enter a positive deductible amount.")
             except ValueError:
                 print("Please enter a positive deductible amount.")
@@ -60,7 +59,7 @@ def get_user_inputs(n_claims):
                     print(f"Please enter a policy limit greater than the deductible amount of ${deductible:,}.")
                 elif policy_limit > MAX_POLICY_LIMIT:
                     print(f"Please enter a policy limit less than or equal to ${MAX_POLICY_LIMIT:,}.")
-                else:
+                else: #policy limit in right range
                     break
             except ValueError:
                 print("Please enter a numeric value for the policy limit.")
@@ -83,7 +82,7 @@ def get_user_inputs(n_claims):
                     break
                 elif 0 < coinsurance_rate < 100:
                     break
-                else:
+                else: #coinsurance is negative
                     print("Please enter a positive coinsurance.")
             except ValueError:
                 print("Please enter a valid numeric value for coinsurance.")
@@ -94,6 +93,7 @@ def get_user_inputs(n_claims):
         'coinsurance_rate': coinsurance_rate,
         'n_claims': n_claims
     }
+
 
 
 
