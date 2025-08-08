@@ -3,16 +3,18 @@ def get_uniform_bounds():
     while True:
         try:
             a= float(input("Enter the lower bound 'a' for the Uniform distribution: "))
-            break
+            if a >=0:
+                break
+            print("Please enter a non-negative value for the lower bound 'a'")
         except ValueError:
-            print("Please enter a numeric value for lower bound 'a'.")
+            print("Please enter a non-negative value for the lower bound 'a'")
 
     while True:
         try:
             b= float(input("Enter the upper bound 'b' for the Uniform distribution: "))
             if b>a:
                 break
-            print(f"The upper bound 'b' must be greater than the lower bound {a:,}.")
+            print(f"The upper bound 'b' must be greater than the lower bound of {a:,}.")
         except ValueError:
             print("Please enter a numeric value for upper bound 'b'.")
     return a,b
@@ -39,8 +41,8 @@ def get_uniform_parameters(info): #getting adjusted bounds (that happen to be th
             print(f"\nThe policy limit must satisfy this inequality: a < policy limit ≤ b → [{a:,} < {u:,} ≤ {b:,}]")
         else:
             break #no deductible nor policy limit
-    if d == a:
-        print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
+    if d == a and d>0:
+        print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,.2f}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
 
     if u == b:
         print("\n⚠️ Warning: The policy limit equals the maximum possible loss so it will not cap any losses.")
@@ -140,7 +142,7 @@ def get_beta_bounds(info):
             b = float(input("Enter the maximum loss amount: "))
             if b>a:
                 break
-            print(f"The maximum loss amount must be greater than the minimum loss amount of ${a:,}.")
+            print(f"The maximum loss amount must be greater than the minimum loss amount of ${a:,.2f}.")
         except ValueError:
             print("Please enter a numeric value for the maximum loss amount.")
     return a,b
@@ -149,6 +151,7 @@ def beta_adjusted_bounds(info):
     d= info['deductible']
     u=info['policy_limit']
 
+    #not adjusting cases
     if d > 0 and u < float('inf') and 0 <= d < u <= 1: #both deductible and policy limit and both are between [0,1]
         a, b = 0, 1
 
@@ -189,8 +192,8 @@ def beta_adjusted_bounds(info):
                     break
                 print(f"\nThe policy limit must satisfy this inequality: min < policy limit ≤ max → [{a:,} < {u:,} ≤ {b:,}]")
 
-        if d == a:
-            print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
+        if d == a and d >0:
+            print(f"\n⚠️ Warning: The deductible equals the minimum possible loss. Since losses cannot be less than ${a:,.2f}, the insurer will pay for all losses except when the loss is exactly ${a:,}.")
 
         if u == b:
             print("\n⚠️ Warning: The policy limit equals the maximum possible loss so it will not cap any losses.")
