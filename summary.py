@@ -69,44 +69,76 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     all_below_deductible = all(x <= info['deductible'] for x in losses)
     coinsurance_is_zero = info['coinsurance_rate'] == 0
-    expected_close_to_zero = expected_total < 0.01
-    total_payment_close_to_zero = total_payment < 0.01
-    a_e_ratio = total_payment/expected_total
+
+    #FUNCTIONS FOR PAYMENT SUMMARY
+    def total_expected_p(expected_total):
+            if expected_total == 0:
+                return f"Total expected claim payment: $0.00"
+            elif expected_total < 0.01:
+                return f"Total expected claim payment: less than $0.01"
+            else:
+                return f"Total expected claim payment: ${expected_total:.2f}"
+
+    def total_p(total_payment):
+        if  total_payment == 0:
+            return f"Total claim payment: $0.00"
+        elif total_payment < 0.01:
+           return f"Total claim payment: less than $0.01"
+        else:
+            return f"Total claim payment: ${total_payment:.2f}"
+
+
+    def a_e_func(a_e_ratio):
+        if a_e_ratio > 1:
+            return f"The A/E ratio is {a_e_ratio * 100:.2f}%, meaning that actual payments are higher than expected."
+        elif a_e_ratio <1:
+            return f"The A/E ratio is {a_e_ratio * 100:.2f}%, meaning that actual payments are lower than expected."
+        elif a_e_ratio == 1:
+            return f"The A/E ratio is {a_e_ratio * 100:.2f}%, meaning the actual payments are exactly equal to expected."
 
     if expected_total == 0:
-        percent_error = float('nan')  # or set to 0.0 or display a message
+        percent_error = float('nan')  # percent error not a number
+        a_e_ratio = float('nan')
     else:
         percent_error = (abs(total_payment - expected_total) / expected_total) * 100
+        a_e_ratio = total_payment / expected_total
+
+    expected_close_to_zero = expected_total < 0.01
+    total_payment_close_to_zero = total_payment <  0.01
+
 
     # CONSIDERING EDGE CASES
-
     print(f"\nPayment Results:")
 
     # Case 1: All claims below deductible
     if all_below_deductible:
-        print(f"\nAll simulated claims were below the deductible.")
-        print(f"Total actual claim payment: $0.00")
-        print(f"Expected claim payment: less than $0.01")
+        print(f"\nAll simulated claims were at or below the deductible.\n")
+        print(total_p(total_payment))
+        print(total_expected_p(expected_total))
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
-            print("Percent error: undefined (expected payment is $0.00)")
+            print("Percent error: undefined (total expected payment is $0.00)")
         else:
             print(f"Percent error: {percent_error:,.2f}%")
+
+        if np.isnan(a_e_ratio):
+            print("A/E ratio: undefined (total expected payment is $0.00)")
+        else:
+            print(a_e_func(a_e_ratio))
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
 
         print("\nThis usually happens when:\n")
         print("  • The deductible is set near the tail of the distribution, and/or")
         print("  • The mean of the distribution is below the deductible.")
-
         print("\n→ Review your deductible and distribution parameters.")
 
     # Case 2: Both expected and actual payments near zero
     elif expected_close_to_zero and total_payment_close_to_zero:
         print(f"\nBoth the total actual claim payment and expected claim payment are less than $0.01.")
-
         print("\nThis usually occurs when:\n")
         print("  • The deductible is near the tail of the distribution, and/or")
         print("  • Almost all simulated claims fall below the deductible.")
+        print("\n→ Review your deductible and distribution parameters.")
 
     # Case 3: Expected payment near zero, but actual payment not
     elif expected_close_to_zero and not total_payment_close_to_zero:
@@ -114,11 +146,16 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(f"Total actual claim payment: ${total_payment:,.2f}")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
-            print("Percent error: undefined (expected payment is $0.00)")
+            print("Percent error: undefined (total expected payment is $0.00)")
         else:
             print(f"Percent error: {percent_error:,.2f}%")
+        if np.isnan(a_e_ratio):
+            print("A/E ratio: undefined (total expected payment is $0.00)")
+        else:
+            print(a_e_func(a_e_ratio))
 
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
+        print("\nNote: All monetary values and percentages are rounded to two decimal places.")
 
     # Case 4: Actual payment near zero, but expected payment not
     elif not expected_close_to_zero and total_payment_close_to_zero:
@@ -126,15 +163,22 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(f"Total expected claim payment: ${expected_total:,.2f}")
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
-            print("Percent error: undefined (expected payment is $0.00)")
+            print("Percent error: undefined (total expected payment is $0.00)")
         else:
             print(f"Percent error: {percent_error:,.2f}%")
+
+        if np.isnan(a_e_ratio):
+            print("A/E ratio: undefined (total expected payment is $0.00)")
+        else:
+            print(a_e_func(a_e_ratio))
+
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
+        print("\nNote: All monetary values and percentages are rounded to two decimal places.")
+
 
     # Case 5: Coinsurance is zero
-    elif coinsurance_is_zero:
+    elif coinsurance_is_zero and u == float('inf'):
         print(f"\nBoth the total actual claim payment and expected claim payment are $0.00.")
-
         print("\nReason:\n")
         print("  • The coinsurance rate is 0%, so the insurer pays nothing.")
 
@@ -146,17 +190,17 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
 
         if np.isnan(percent_error):
-            print("Percent error: undefined (expected payment is $0.00)")
+            print("Percent error: undefined (total expected payment is $0.00)")
         else:
             print(f"Percent error: {percent_error:,.2f}%")
 
-        if a_e_ratio > 1:
-            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual payments are higher than expected.")
+        if np.isnan(a_e_ratio):
+            print("A/E ratio: undefined (total expected payment is $0.00)")
         else:
-            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual payments are lower than expected.")
+            print(a_e_func(a_e_ratio))
 
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
-
+        print("\nNote: All monetary values and percentages are rounded to two decimal places.")
 
     if integration_warning:
         print("\n⚠️  Warning: The calculation of the expected payment encountered convergence issues.")
