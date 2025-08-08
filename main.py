@@ -7,8 +7,8 @@ from summary import summarize_results
 
 def main():
     print("📊 Welcome to the Insurance Claim Simulator!\n")
-    print("We will simulate insurance claims to perform an actual-to-expected (A/E) analysis on the insurance payments based on the following customizable inputs: \n"
-          "  • The number of claims\n"
+    print("We will simulate insurance claims to perform an actual-to-expected (A/E) analysis of the insurance payments based on the following customizable inputs: \n"
+          "  • Number of claims\n"
           "  • Policy terms\n"
           "  • Claim distribution used\n")
     
