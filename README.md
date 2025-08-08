@@ -1,6 +1,6 @@
 # 📘 Insurance Claims Simulator (CLI Edition)
 
-This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis on the insurance payments based on customizable inputs such as:
+This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis of the insurance payments based on customizable inputs such as:
 
 - The number of claims
 - The insurance policy setup
