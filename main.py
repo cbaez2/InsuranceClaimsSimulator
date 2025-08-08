@@ -7,11 +7,11 @@ from summary import summarize_results
 
 def main():
     print("📊 Welcome to the Insurance Claim Simulator!\n")
-    print("This simulation helps you analyze how actual insurance payments deviate from expected payments, based on: \n"
+    print("We will simulate insurance claims to perform an actual-to-expected (A/E) analysis on the insurance payments based on customizable inputs such as: \n"
           "  • The number of claims\n"
           "  • Policy terms\n"
           "  • Claim distribution used\n")
-
+    
     # Step 1: Ask how many claims to simulate
     n_claims = get_number_of_claims()
 
