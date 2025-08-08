@@ -1,4 +1,4 @@
-# 📘 Insurance Claims Simulator (CLI Edition)
+#  Insurance Claims Simulator (CLI Edition)
 
 This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis of the insurance payments based on customizable inputs such as:
 
@@ -10,7 +10,7 @@ It calculates both the total actual insurance payment and the total expected cla
 
 ---
 
-## 🎯 Key Features
+##  Key Features
 
 - Supports **6 continuous distributions**:
   - Uniform, Exponential, Gamma, Normal, Lognormal, Beta
@@ -32,7 +32,7 @@ It calculates both the total actual insurance payment and the total expected cla
   
  ---
 
-  ## 💻 Download Executable 
+  ##  Download Executable 
 
 You can run this simulator **without installing Python**.
 
@@ -45,7 +45,7 @@ You can run this simulator **without installing Python**.
 
 ---
 
-## 📦 Requirements
+##  Requirements
 
 Install dependencies:
 ```
@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Run the simulator
+##  Run the simulator
 
 ```
 python main.py
@@ -62,7 +62,7 @@ python main.py
 
 ---
 
-## 👤 Author
+##  Author
 
 **Christopher Baez**  
 Finance & Risk Management Major | Aspiring actuary  
