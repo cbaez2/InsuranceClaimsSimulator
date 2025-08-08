@@ -4,7 +4,7 @@ This command-line actuarial modeling tool simulates insurance claims to perform 
 
 - The number of claims
 - The insurance policy setup
-- The claim distribution used
+- The claim size distribution 
 
 It calculates both the total actual insurance payment and the total expected claim payment, assuming claims are independent and identically distributed. The results include the percent error, difference, A/E ratio and margin of error.
 
