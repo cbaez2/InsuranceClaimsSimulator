@@ -151,9 +151,9 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
             print(f"Percent error: {percent_error:,.2f}%")
 
         if a_e_ratio > 1:
-            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual results are higher than expected.")
+            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual payments are higher than expected.")
         else:
-            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning actual results are lower than expected.")
+            print(f"The A/E ratio is {a_e_ratio*100:.2f}%, meaning that actual payments are lower than expected.")
 
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
 
