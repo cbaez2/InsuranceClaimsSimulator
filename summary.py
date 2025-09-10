@@ -2,7 +2,6 @@
 import numpy as np
 from expectedvalue import expected_payment
 
-
 def summarize_results(losses, payments, info, dist_name, dist_params):
     n = len(losses)
     total_payment = np.sum(payments)
@@ -67,8 +66,6 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(
             f"{claim_intro} a Beta distribution rescaled to the interval [{dist_params['a']:,}, {dist_params['b']:,}], with parameters α = {dist_params['α']:,} and β = {dist_params['β']:,}.")
 
-    all_below_deductible = all(x <= info['deductible'] for x in losses)
-    coinsurance_is_zero = info['coinsurance_rate'] == 0
 
     #FUNCTIONS FOR PAYMENT SUMMARY
     def total_expected_p(expected_total):
@@ -103,48 +100,32 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         percent_error = (abs(total_payment - expected_total) / expected_total) * 100
         a_e_ratio = total_payment / expected_total
 
+    #considering if expected and/or actual payments are close to 0. Defining variables to not repeat code lines
     expected_close_to_zero = expected_total < 0.01
     total_payment_close_to_zero = total_payment <  0.01
-
 
     # CONSIDERING EDGE CASES
     print(f"\nPayment Results:")
 
-    # Case 1: All claims below deductible
-    if all_below_deductible:
-        print(f"\nAll simulated claims were at or below the deductible.\n")
-        print(total_p(total_payment))
-        print(total_expected_p(expected_total))
-        print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
-        if np.isnan(percent_error):
-            print("Percent error: undefined (total expected payment is $0.00)")
-        else:
-            print(f"Percent error: {percent_error:,.2f}%")
+    # Case 1: Coinsurance is zero
+    if c == 0:
+        print(f"\nBoth the total actual claim payment and expected claim payment are $0.00.")
+        print("\nReason:\n")
+        print("  • The coinsurance rate is 0%, so the insurer pays nothing.")
 
-        if np.isnan(a_e_ratio):
-            print("A/E ratio: undefined (total expected payment is $0.00)")
-        else:
-            print(a_e_func(a_e_ratio))
-        print(f"Margin of error on expected payment: ±${total_error:,.2f}")
-
-        print("\nThis usually happens when:\n")
-        print("  • The deductible is set near the tail of the distribution, and/or")
-        print("  • The mean of the distribution is below the deductible.")
-        print("\n→ Review your deductible and distribution parameters.")
-
-    # Case 2: Both expected and actual payments near zero
+    #Case 2: Both expected and actual payments near zero
     elif expected_close_to_zero and total_payment_close_to_zero:
         print(f"\nBoth the total actual claim payment and expected claim payment are less than $0.01.")
         print("\nThis usually occurs when:\n")
         print("  • The deductible is near the tail of the distribution, and/or")
         print("  • Almost all simulated claims fall below the deductible.")
-        print("\n→ Review your deductible and distribution parameters.")
+        print("\n→ Review your deductible and/or distribution parameters.")
 
     # Case 3: Expected payment near zero, but actual payment not
     elif expected_close_to_zero and not total_payment_close_to_zero:
         print(f"\nExpected claim payment: less than $0.01.")
         print(f"Total actual claim payment: ${total_payment:,.2f}")
-        print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
+        print(f"Absolute change: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
             print("Percent error: undefined (total expected payment is $0.00)")
         else:
@@ -161,7 +142,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
     elif not expected_close_to_zero and total_payment_close_to_zero:
         print(f"\nTotal actual claim payment: less than $0.01")
         print(f"Total expected claim payment: ${expected_total:,.2f}")
-        print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
+        print(f"Absolute change: ${abs(total_payment - expected_total):,.2f}")
         if np.isnan(percent_error):
             print("Percent error: undefined (total expected payment is $0.00)")
         else:
@@ -175,19 +156,12 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
         print("\nNote: All monetary values and percentages are rounded to two decimal places.")
 
-
-    # Case 5: Coinsurance is zero
-    elif coinsurance_is_zero and u == float('inf'):
-        print(f"\nBoth the total actual claim payment and expected claim payment are $0.00.")
-        print("\nReason:\n")
-        print("  • The coinsurance rate is 0%, so the insurer pays nothing.")
-
     # PAYMENT SUMMARY (default case)
     else:
 
         print(f"\nTotal actual claim payment: ${total_payment:,.2f}")
         print(f"Total expected claim payment: ${expected_total:,.2f}")
-        print(f"Difference: ${abs(total_payment - expected_total):,.2f}")
+        print(f"Absolute change: ${abs(total_payment - expected_total):,.2f}")
 
         if np.isnan(percent_error):
             print("Percent error: undefined (total expected payment is $0.00)")
@@ -204,7 +178,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
 
     if integration_warning:
         print("\n⚠️  Warning: The calculation of the expected payment encountered convergence issues.")
-        print( "  • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
+        print( " • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
         print("  • The expected value shown may be inaccurate.")
         print("  • Large margin of error: the numerical integral failed to meet the required tolerance.")
         print( "\n→ Consider using different parameters and/or reducing the integration domain by adjusting the policy characteristics for a better approximation of the expected payment.")
