@@ -5,7 +5,7 @@ from expectedvalue import expected_payment
 def summarize_results(losses, payments, info, dist_name, dist_params):
     n = len(losses)
     total_payment = np.sum(payments)
-    expected_pay, margin_error, integration_warning = expected_payment(info, dist_name, dist_params)
+    expected_pay, margin_error, integration_warning = expected_payment(info, dist_name, dist_params) #saving expected payment, margin of error and integraion error in variables
     expected_total = expected_pay * n
     total_error = margin_error * n
     d=info['deductible']
@@ -15,7 +15,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
     # summary.py
     print("\nPolicy and claim characteristics:")
 
-    # Singular/plural logic
+    # Singular/plural logic - in case user simulates insurance claims
     if n == 1:
         sim_phrase = "Simulated a single claim that is"
         claim_intro = "The claim follows"
@@ -176,7 +176,7 @@ def summarize_results(losses, payments, info, dist_name, dist_params):
         print(f"Margin of error on expected payment: ±${total_error:,.2f}")
         print("\nNote: All monetary values and percentages are rounded to two decimal places.")
 
-    if integration_warning:
+    if integration_warning: #integration_warning returns a True value
         print("\n⚠️  Warning: The calculation of the expected payment encountered convergence issues.")
         print( " • This may occur when integrating in the tail of a distribution (such as the Lognormal with large parameters).")
         print("  • The expected value shown may be inaccurate.")
