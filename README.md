@@ -67,7 +67,6 @@ python main.py
 **Christopher Baez**  
 Finance & Risk Management Major | Future Actuary  
 Email: [chris_baez18@hotmail.com]  
-GitHub: [https://github.com/cbaez2]
 
 ---
 
