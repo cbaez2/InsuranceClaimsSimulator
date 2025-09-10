@@ -52,6 +52,8 @@ def payment(x, info):
 
     # Case 7: Deductible + Limit + Coinsurance
     if d !=0  and u != float('inf') and c!=1:
+        if c == 0:
+            return 0  # insurer pays nothing with 0% coinsurance. This is needed to avoid division by 0 errors so that u/c is not computed if c==0. I want to thank Eddie for catching this specific issue!
         if x <= d:
             return 0
         elif d < x < d + u/c:
