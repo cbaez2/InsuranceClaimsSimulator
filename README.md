@@ -1,12 +1,12 @@
 #  Insurance Claims Simulator (CLI Edition)
 
-This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis of the insurance payments based on customizable inputs such as:
+This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis on the insurance claim payments based on customizable inputs such as:
 
 - The number of claims
 - The insurance policy setup
 - The claim size distribution 
 
-It calculates both the total actual insurance payment and the total expected claim payment, assuming claims are independent and identically distributed. The results include the percent error, difference, A/E ratio and margin of error.
+It calculates both the total actual insurance payment and the total expected claim payment, assuming claims are independent and identically distributed. The results include the absolute change, percent error, A/E ratio and margin of error.
 
 ---
 
@@ -23,12 +23,12 @@ It calculates both the total actual insurance payment and the total expected cla
   - Rescales the Beta distribution if policy inputs fall outside [0,1].
   - Detects edge cases (e.g., zero coinsurance, zero payments).
 - Reports:
-  - Total insurance payout
-  - Expected claim payout (via numerical integration)
-  - Difference between both
+  - Total insurance payment
+  - Expected claim payment (via numerical integration)
+  - Absolute change
   - Percent error
   - A/E ratio
-  - Margin of error on total expected payout
+  - Margin of error on total expected payment
   
  ---
 
@@ -65,7 +65,7 @@ python main.py
 ##  Author
 
 **Christopher Baez**  
-Finance & Risk Management Major | Aspiring actuary  
+Finance & Risk Management Major | Future Actuary  
 Email: [chris_baez18@hotmail.com]  
 GitHub: [https://github.com/cbaez2]
 
