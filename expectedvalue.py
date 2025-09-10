@@ -32,10 +32,10 @@ def get_pdf_and_bounds(dist_name, dist_params):
         α, β_ = dist_params['α'], dist_params['β']
         return lambda x: beta.pdf(x, a=α, b=β_, loc=a, scale=b - a), a, b
 
-def expected_payment(info, dist_name, dist_params):
-    f_X, lower, upper = get_pdf_and_bounds(dist_name, dist_params)
-    integrand = lambda x: payment(x, info) * f_X(x)
-    warning_occurred = False
+def expected_payment(info, dist_name, dist_params):  #defining function to do expected payment
+    f_X, lower, upper = get_pdf_and_bounds(dist_name, dist_params)  #defining variables to save PDF and its bounds
+    integrand = lambda x: payment(x, info) * f_X(x)   #defining integrand as mathematical function
+    warning_occurred = False   #by default warning_occurred is defined as a boolean value.
 
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("ignore", IntegrationWarning)  # suppress display
@@ -43,11 +43,10 @@ def expected_payment(info, dist_name, dist_params):
 
         result, error = quad(integrand, lower, upper, limit=1000)
 
-        for warn in w:
+        for warn in w:  #consdering case in which theres a warning
             if issubclass(warn.category, IntegrationWarning):
                 warning_occurred = True
                 break
 
-    return result, error, warning_occurred
-
+    return result, error, warning_occurred  #returns the integral result, margin of error, and boolean value in case if there's a warning
 
