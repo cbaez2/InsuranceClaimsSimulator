@@ -70,6 +70,6 @@ Email: [chris_baez18@hotmail.com]
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the **MIT License** — you are free to use, modify, and distribute it with proper attribution.
