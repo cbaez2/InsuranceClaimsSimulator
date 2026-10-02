@@ -76,8 +76,8 @@ Please open an issue or pull request if you would like to collaborate.
 ##  Author
 
 **Christopher Baez**  
-Finance & Risk Management Major | Future Actuary  
-Email: [chris_baez18@hotmail.com]  
+Finance & Risk Management Major   
+ 
 
 ---
 
