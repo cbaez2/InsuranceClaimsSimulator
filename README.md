@@ -1,12 +1,12 @@
 #  Insurance Claims Simulator
 
-This command-line actuarial modeling tool simulates insurance claims to perform an actual-to-expected (A/E) analysis on the insurance claim payments based on customizable inputs such as:
+This command-line tool simulates insurance claims to calculate the difference between expected and actual payouts based on customizable inputs such as:
 
 - The number of claims
 - The insurance policy setup
 - The claim size distribution 
 
-It calculates both the total actual insurance payment and the total expected claim payment, assuming claims are independent and identically distributed. The results include the absolute change, percent error, A/E ratio and margin of error.
+It calculates both the total actual insurance payment and the total expected claim payment, assuming claims are independent and identically distributed. The results include the absolute change, percent error, A/E ratio and margin of error on numerical integration.
 
 ---
 
