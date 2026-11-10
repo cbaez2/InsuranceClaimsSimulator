@@ -75,7 +75,7 @@ Please open an issue or pull request if you would like to collaborate.
 
 ##  Author
 
-**Christopher Baez**  
+**Chris B**  
 Finance & Risk Management Major   
  
 
