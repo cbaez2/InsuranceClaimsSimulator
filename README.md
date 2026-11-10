@@ -71,13 +71,7 @@ If you encounter a bug, unexpected behavior, or edge case, feel free to open an 
 Contributions, extensions, and theoretical discussions related to asset–liability immunization are also welcome.  
 Please open an issue or pull request if you would like to collaborate.
 
----
-
-##  Author
-
-**Chris B**  
-Finance & Risk Management Major   
- 
+--- 
 
 ---
 
